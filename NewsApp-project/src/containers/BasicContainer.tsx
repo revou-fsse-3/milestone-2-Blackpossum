@@ -9,11 +9,11 @@ type Props = {
 
 const BasicContainer = (props: Props) => {
   return (
-    <div className="grid grid-cols-2 ">
+    <div className="flex flex-col-reverse ">
       <div className="placeitem">
+        <h1 className="flex align-center border-8">Welcome to News Portal</h1>
         <img src={props.background} className="" alt="background" />
       </div>
-
       <div>{props.children}</div>
     </div>
   );

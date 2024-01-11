@@ -3,9 +3,9 @@ import { Input } from "@mui/base/Input";
 
 const LandingPage = () => {
   return (
-    <div className="bg-lime-800 w-[250px] h-[1000px]">
+    <div className="bg-lime-800">
       <nav>
-        <ul className="flex text-center flex-col gap-10">
+        <ul className="flex text-center flex-row gap-10">
           <li>
             <Link to="/">
               <h1 className="text-2xl font-bold leading-7 py-8 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
@@ -28,13 +28,11 @@ const LandingPage = () => {
               <Link to="/dashboard">dasboard</Link>
             </div>
           </li>
-        </ul>
-      </nav>
-      <div className="py-10">
-        <div className="MuiInput-root">
+          <div className="MuiInput-root py-5 rounded-xl">
           <Input type="text" className="MuiInput-Input" />
         </div>  
-      </div>
+        </ul>
+      </nav>
     </div>
   );
 };
