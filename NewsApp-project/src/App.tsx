@@ -23,7 +23,7 @@ const App = () => {
       element: <SignupPage />,
     },
     {
-      path: "/dasboard",
+      path: "/dashboard",
       element: <Dashboard />,
     },
   ]);

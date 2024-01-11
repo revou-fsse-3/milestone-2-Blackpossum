@@ -32,7 +32,7 @@ const LandingPage = () => {
       </nav>
       <div className="py-10">
         <div className="MuiInput-root">
-          <input type="text" className="MuiInput-Input" />
+          <Input type="text" className="MuiInput-Input" />
         </div>  
       </div>
     </div>
