@@ -1,12 +1,78 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Container, Pagination } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
+const Dashboard = () => {
+  const apiKey = import.meta.env.NEWS_API_KEY
+  const token = localStorage.getItem("Token");
+  const [page, setPage] = useState(1);
+  const navigate = useNavigate();
+  const pageSize = 10;
 
-import React from 'react';
+  const [articles, setArticles] = useState([]);
 
-const Dashboard: React.FC = () => {
+  interface Article {
+    title: string;
+    author: string;
+    publishedAt: string;
+    description: string;
+    
+  }
+
+  interface ApiResponse {
+    articles: Article[];
+    // Other properties from the API response
+  }
+
+  const fetchingArticles = async () => {
+    try {
+      const res = await axios.get<ApiResponse>(
+        `https://newsapi.org/v2/top-headlines?country=us&pageSize=${pageSize}&page=${page}&apiKey=${apiKey}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const results = res.data.articles;
+      setArticles(results);
+
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchingArticles();
+    } else {
+      alert("Please log in to your account");
+      navigate("/");
+    }
+  }, [page]);
+
   return (
     <div>
-      <h2>Dashboard</h2>
-      {/* content bang */}
+      <Container>
+        {articles?.map((article, index) => (
+          <div key={index} className="my-4 p-6 bg-gray-100 rounded shadow-md">
+            <h2 className="text-xl font-semibold mb-2">{article.title}</h2>
+            <p className="text-sm text-gray-600 mb-2">
+              {article.author} - {new Date(article.publishedAt).toDateString()}
+            </p>
+            <p className="text-gray-800">{article.description}</p>
+          </div>
+        ))}
+        <Pagination
+          count={10} // Adjust the count based on your API response or requirement
+          page={page}
+          onChange={(_, value) => setPage(value)}
+          color="primary"
+          className="mt-4 flex justify-center"
+        />
+      </Container>
     </div>
   );
 };
