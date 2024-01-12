@@ -22,13 +22,13 @@ const Dashboard = () => {
 
   interface ApiResponse {
     articles: Article[];
-    // Other properties from the API response
   }
 
   const fetchingArticles = async () => {
     try {
       const res = await axios.get<ApiResponse>(
-        `https://newsapi.org/v2/top-headlines?country=us&pageSize=${pageSize}&page=${page}&apiKey=${apiKey}`,
+        // API LIMIT GABISA REQ LAGI 
+        `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}&pageSize=${pageSize}&page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (token) {
+    if (localStorage.getItem("token")) {
       fetchingArticles();
     } else {
       alert("Please log in to your account");
@@ -66,7 +66,7 @@ const Dashboard = () => {
           </div>
         ))}
         <Pagination
-          count={10} // Adjust the count based on your API response or requirement
+          count={10} //jumlah page
           page={page}
           onChange={(_, value) => setPage(value)}
           color="primary"

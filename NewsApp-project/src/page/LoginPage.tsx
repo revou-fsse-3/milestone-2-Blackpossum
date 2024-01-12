@@ -1,92 +1,89 @@
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { TextField, Button, Typography, Container } from "@mui/material";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
 import axios from "axios";
 
-// validation formik
+interface LoginProps {}
 
-const ValidationSchema = Yup.object().shape({
-  username: Yup.string().required("enter a valid username"),
-  password: Yup.string().required("cannot leave blank"),
+const validationSchema = yup.object({
+  email: yup.string().required("Username is required"),
+  password: yup.string().required("Password is required"),
 });
 
-const LoginPage = () => {
+const LoginPage: React.FC<LoginProps> = ({}) => {
   const navigate = useNavigate();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSubmit = async (values: any, { setSubmitting }: any) => {
-    try {
-      const loginApi = process.env.LOGIN_API_URL;
-      const response = await axios.post(loginApi, values);
 
-      if (response.status === 200) {
-        const Token = response.data.token;
-        localStorage.setItem("Token", Token);
-        navigate("/dashboard");
-      } else {
-        console.log("Login Failed, check API status");
-      }
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false });
+      const res = await axios.post(
+        "https://mock-api.arikmpt.com/api/user/login",
+        values
+      );
+      localStorage.setItem("token", res.data.data.token);
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Error during login", error);
-    } finally {
-      setSubmitting(false);
+      console.log("Login error:", error);
     }
   };
 
   return (
-    <div className="border-4 rounded-xl bg-violet-400">
-      <Container>
-        <div className="flex flex-col items-center w-[500px] bg-indigo-700 rounded-xl my-20 px-5 py-5 text-white">
-          <Typography variant="h5">Login</Typography>
-          <Formik
-            initialValues={{ username: "", password: "" }}
-            validationSchema={ValidationSchema}
-            onSubmit={handleSubmit}
-          >
-            <Form>
-              <Field
-                type="text"
-                name="username"
-                label="Username"
-                as={TextField}
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                error={false}
-                helperText={<ErrorMessage name="username" />}
-              />
-              <Field
-                type="password"
-                name="password"
-                label="Password"
-                as={TextField}
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                error={false}
-                helperText={<ErrorMessage name="password" />}
-              />
-              <Button
+    <div className="my-20 w-[800px] h-[400px] mx-auto bg-white p-8 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4">Log In</h2>
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <div className="grid gap-4">
+              <div className="flex flex-col space-y-2">
+                <label htmlFor="email" className="text-sm">
+                  Email
+                </label>
+                <Field
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  className="border rounded p-2"
+                />
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                <label htmlFor="password" className="text-sm">
+                  Password
+                </label>
+                <Field
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  className="border rounded p-2"
+                />
+              </div>
+
+              <button
                 type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                size="large"
+                disabled={isSubmitting}
+                className="bg-blue-500 text-white py-2 rounded"
               >
                 Login
-              </Button>
-              <Typography variant="body2" style={{ marginTop: "10px" }}>
-                Don't have an account?{" "}
-                <RouterLink to="/signup" style={{ textDecoration: "none" }}>
-                  <Typography color="primary" variant="body2">
-                    Sign Up
-                  </Typography>
-                </RouterLink>
-              </Typography>
-            </Form>
-          </Formik>
-        </div>
-      </Container>
+              </button>
+
+              <p className="text-center my-4">OR</p>
+
+              <button
+                type="submit"
+                onClick={() => navigate("/signup")}
+                className="border border-blue-500 text-blue-500 py-2 rounded"
+              >
+                Sign Up
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

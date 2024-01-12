@@ -13,10 +13,11 @@ import Dashboard from "./page/Dashboard"
 import LoginPage from "./page/LoginPage"
 import SignupPage from "./page/SignupPage"
 import PageBackground from "../public/Tablet login-amico.svg"
+import SignupBackground from "../public/grammar correction-rafiki.svg"
 import BasicContainer from "./containers/BasicContainer"
 
 
-// fix layout so it rendered
+// fix layout so it rendered(mbenerke layout ndess.....)
 
 
 const App:React.FC = () => {
@@ -43,7 +44,7 @@ const App:React.FC = () => {
       },
       {
         path:"/signup",
-        element:<BasicContainer background={PageBackground}>
+        element:<BasicContainer background={SignupBackground}>
           <SignupPage/>
         </BasicContainer>
       },
