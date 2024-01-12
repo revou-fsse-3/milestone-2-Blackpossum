@@ -1,17 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import  { useEffect, useState } from "react"
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
+  createBrowserRouter,
+  RouterProvider,
 } from "react-router-dom"
-import Navbar from "./component/Navbar"
+import MainLayout from "./layout/MainLayout"
 import Dashboard from "./page/Dashboard"
 import LoginPage from "./page/LoginPage"
 import SignupPage from "./page/SignupPage"
+import PageBackground from "../public/Tablet login-amico.svg"
+import BasicContainer from "./containers/BasicContainer"
 
 
-const App = () => {
+// fix layout so it rendered
+
+
+const App:React.FC = () => {
 
   const [ isLoggedIn,setIsLoggedIn ]=useState<boolean>(false)
 
@@ -21,43 +29,36 @@ const App = () => {
       setIsLoggedIn(true)
     } else {
       setIsLoggedIn(false)
+      
     }
   },[]);
 
-  const handleLogout = () => {
-    // log out logic 
-    setIsLoggedIn(false)
-  };
+  const routers= createBrowserRouter([{
+    element:<MainLayout/>,
+    children:[
+      {
+        path:'/',
+        element:<BasicContainer background={PageBackground}>
+          <LoginPage/>
+        </BasicContainer>
+      },
+      {
+        path:"/signup",
+        element:<BasicContainer background={PageBackground}>
+          <SignupPage/>
+        </BasicContainer>
+      },
+      {
+        path:"/dashboard",
+        element:
+          <Dashboard/>
+      }
+    ]
+  }])
+
 
   return (
-    <Router>
-      <Route
-      path="/*"
-      element={
-        <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout}/>
-      }
-      />
-      <Routes>
-        <Route
-        path="/dashboard"
-        element={
-          isLoggedIn ? <Dashboard/> : <Navigate to={"/login"} replace={true}/>
-        }
-        />
-        <Route
-        path="/login"
-        element={
-          <LoginPage/>
-        }
-        />
-        <Route
-        path="/signup"
-        element={
-          <SignupPage/>
-        }
-        />
-      </Routes>
-    </Router>
+    <RouterProvider router={routers}/>
   )
 }
 

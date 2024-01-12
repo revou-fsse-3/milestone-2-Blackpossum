@@ -9,10 +9,9 @@ type Props = {
 
 const BasicContainer = (props: Props) => {
   return (
-    <div className="flex flex-col-reverse ">
+    <div className="flex flex-row justify-center items-center mt-40">
       <div className="placeitem">
-        <h1 className="flex align-center border-8">Welcome to News Portal</h1>
-        <img src={props.background} className="" alt="background" />
+        <img src={props.background} className="w-[500px] h-[600px]" alt="background" />
       </div>
       <div>{props.children}</div>
     </div>
