@@ -18,7 +18,7 @@ const Dashboard = () => {
   const fetchingArticles = async () => {
     try {
       const res = await axios.get<ApiResponse>(
-        `https://newsapi.org/v2/everything?q=${searchQuery}&apiKey=ce2a5572f7f6480e9bcac9e26ad4ce75&page=2&pageSize=20`, // Step 3
+        `https://newsapi.org/v2/everything?q=${searchQuery}&apiKey=6186b9b3520c4bc0b4e53f7246628ac7&page=2&pageSize=20`, // Step 3
         {
           headers: {
             Authorization: `Bearer ${token}`,
