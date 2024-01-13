@@ -12,8 +12,8 @@ import MainLayout from "./layout/MainLayout"
 import Dashboard from "./page/Dashboard"
 import LoginPage from "./page/LoginPage"
 import SignupPage from "./page/SignupPage"
-import PageBackground from "../public/Tablet login-amico.svg"
-import SignupBackground from "../public/grammar correction-rafiki.svg"
+import PageBackground from "../src/assets/public/Innovation-amico.svg"
+import SignupBackground from "../src/assets/public/Tablet login-amico.svg"
 import BasicContainer from "./containers/BasicContainer"
 
 
