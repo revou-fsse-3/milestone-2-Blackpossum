@@ -10,7 +10,7 @@ const validationSchema = yup.object({
   password: yup.string().required("Password is required"),
 });
 
-const LoginPage: React.FC<LoginProps> = ({}) => {
+const LoginPage: React.FC<LoginProps> = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (values: { email: string; password: string }) => {

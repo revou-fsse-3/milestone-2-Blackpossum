@@ -12,7 +12,6 @@ const ProtectedLayout: React.FC<ProtectedLayoutProps> = ({ children }) => {
   return (
     <div>
       <Navbar
-        isLoggedIn={isLoggedIn}
         onLogout={function (): void {
           throw new Error("Function not implemented.");
         }}
